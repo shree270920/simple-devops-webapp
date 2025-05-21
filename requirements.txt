@@ -1,2 +1,1 @@
-# requirements.txt
-Flask==2.0.2 # Or a recent version
+Flask
