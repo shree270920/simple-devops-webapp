@@ -1,0 +1,34 @@
+name: CI/CD Pipeline # 1. Name of your workflow
+
+on :  # 2. When the workflow should run
+  push:
+    branches:
+      - main
+jobs:  # 3. Define the jobs that will run in this workflow
+  build-and-deploy: # Name of this specific job
+    runs-on: ubuntu-latest  # 4. The type of machine to run the job on
+
+    steps:  # 5. A sequence of tasks within this job
+      - name: Checkout code  # Name of this step
+        uses: actions/checkout@v3 # 6. Use a pre-built action to get your code
+
+      - name: Log in to Docker Hub  
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }} # 7. Use secrets
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image  
+        uses: docker/build-push-action@v4
+        with:
+          context: .  
+          push: true
+          tags: shree2000/simple-webapp:latest
+        
+
+      - name: Deploy (Manual/conceptual for now)
+        run: | # 8. Run custom shell commands
+          echo "Image built and pushed. In a real scenario, you would now deploy this image to a server."
+          # Add your deployment commands here
+
+      
